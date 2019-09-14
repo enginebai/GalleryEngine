@@ -1,5 +1,7 @@
 package com.enginebai.gallery.model
 
+const val ALL_MEDIA_ALBUM_NAME = "ALL_MEDIA_ALBUM_NAME"
+
 data class AlbumItem(
     val name: String,
     val folder: String,
