@@ -22,6 +22,8 @@ class GalleryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gallery)
         viewModel.setting = intent.getSerializableExtra(KEY_ALBUM_SETTING) as AlbumSetting
+
+
     }
 
     class Builder {
