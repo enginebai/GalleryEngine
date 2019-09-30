@@ -4,9 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.enginebai.gallery.R
+import com.enginebai.gallery.base.BaseActivity
 import com.enginebai.gallery.model.AlbumSetting
 import com.enginebai.gallery.model.MimeType
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -14,7 +14,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 const val REQUEST_SELECT_MEDIA = 88
 private const val KEY_ALBUM_SETTING = "albumSetting"
 
-class GalleryActivity : AppCompatActivity() {
+class GalleryActivity : BaseActivity() {
 
     private val viewModel by viewModel<GalleryViewModel>()
 
@@ -23,7 +23,12 @@ class GalleryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_gallery)
         viewModel.setting = intent.getSerializableExtra(KEY_ALBUM_SETTING) as AlbumSetting
 
-
+        supportFragmentManager.beginTransaction()
+            .add(
+                R.id.mediaContainer,
+                MediaSelectFragment.newInstance()
+            )
+            .commit()
     }
 
     class Builder {
