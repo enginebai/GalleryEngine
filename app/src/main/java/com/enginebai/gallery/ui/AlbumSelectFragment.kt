@@ -11,11 +11,11 @@ import com.enginebai.gallery.base.BaseFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_album_select.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class AlbumSelectFragment : BaseFragment() {
 
-    private val viewModel by viewModel<GalleryViewModel>()
+    private val viewModel by sharedViewModel<GalleryViewModel>()
     private val albumAdapter: AlbumAdapter by lazy {
         AlbumAdapter {
             viewModel.selectAlbum(it)

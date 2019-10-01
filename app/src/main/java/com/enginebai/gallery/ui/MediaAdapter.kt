@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.item_media.view.*
 
 class MediaAdapter(private val clickListener: (Media) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val mediaList = mutableListOf<Media>()
+    var mediaList = mutableListOf<Media>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MediaViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_media, parent, false))

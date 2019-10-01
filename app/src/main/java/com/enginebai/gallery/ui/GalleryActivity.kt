@@ -8,9 +8,11 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.enginebai.gallery.R
 import com.enginebai.gallery.base.BaseActivity
+import com.enginebai.gallery.model.ALL_MEDIA_ALBUM_NAME
 import com.enginebai.gallery.model.AlbumSetting
 import com.enginebai.gallery.model.MimeType
 import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_gallery.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -33,9 +35,14 @@ class GalleryActivity : BaseActivity() {
                         MediaSelectFragment.newInstance()
                     )
                     .commit()
+                setClickListener()
+                subscribeChanges()
             }.apply { addDisposable(this) }
 
         buttonCancel.setOnClickListener { onBackPressed() }
+    }
+
+    private fun setClickListener() {
         textAlbumName.setOnCheckedChangeListener { _, isChecked ->
             val transaction = supportFragmentManager.beginTransaction()
 
@@ -54,6 +61,18 @@ class GalleryActivity : BaseActivity() {
             supportFragmentManager.executePendingTransactions()
         }
         arrow.setOnClickListener { textAlbumName.toggle() }
+    }
+
+    private fun subscribeChanges() {
+        viewModel.currentAlbumItem
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext {
+                val albumName = if (it.name == ALL_MEDIA_ALBUM_NAME) textAlbumName.context.getString(R.string.camera_roll) else it.name
+                textAlbumName.textOff = albumName
+                textAlbumName.textOn = albumName
+                textAlbumName.isChecked = false
+            }.subscribe()
+            .apply { addDisposable(this) }
     }
 
     class Builder {

@@ -45,7 +45,7 @@ class MediaSelectFragment : BaseFragment() {
         viewModel.currentAlbumItem
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext {
-                mediaAdapter.mediaList.addAll(it.mediaList)
+                mediaAdapter.mediaList = it.mediaList
                 mediaAdapter.notifyDataSetChanged()
             }
             .subscribe()
