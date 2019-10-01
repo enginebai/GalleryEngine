@@ -16,7 +16,11 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class MediaSelectFragment : BaseFragment() {
 
     private val viewModel by sharedViewModel<GalleryViewModel>()
-    private lateinit var mediaAdapter: MediaAdapter
+    private val mediaAdapter: MediaAdapter by lazy {
+        MediaAdapter {
+            viewModel.selectMedia(it)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,10 +33,8 @@ class MediaSelectFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with (list) {
+            addItemDecoration(GridSpaceDecoration(context, R.dimen.media_margin))
             layoutManager = GridLayoutManager(list.context, 3)
-            mediaAdapter = MediaAdapter {
-                viewModel.selectMedia(it)
-            }
             adapter = mediaAdapter
         }
         viewModel.loadAlbums()

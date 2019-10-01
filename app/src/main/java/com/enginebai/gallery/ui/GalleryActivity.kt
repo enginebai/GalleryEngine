@@ -1,5 +1,6 @@
 package com.enginebai.gallery.ui
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -9,6 +10,8 @@ import com.enginebai.gallery.R
 import com.enginebai.gallery.base.BaseActivity
 import com.enginebai.gallery.model.AlbumSetting
 import com.enginebai.gallery.model.MimeType
+import com.tbruyelle.rxpermissions2.RxPermissions
+import kotlinx.android.synthetic.main.activity_gallery.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val REQUEST_SELECT_MEDIA = 88
@@ -22,13 +25,35 @@ class GalleryActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gallery)
         viewModel.setting = intent.getSerializableExtra(KEY_ALBUM_SETTING) as AlbumSetting
+        RxPermissions(this).request(Manifest.permission.READ_EXTERNAL_STORAGE)
+            .subscribe {
+                supportFragmentManager.beginTransaction()
+                    .add(
+                        R.id.mediaContainer,
+                        MediaSelectFragment.newInstance()
+                    )
+                    .commit()
+            }.apply { addDisposable(this) }
 
-        supportFragmentManager.beginTransaction()
-            .add(
-                R.id.mediaContainer,
-                MediaSelectFragment.newInstance()
-            )
-            .commit()
+        buttonCancel.setOnClickListener { onBackPressed() }
+        textAlbumName.setOnCheckedChangeListener { _, isChecked ->
+            val transaction = supportFragmentManager.beginTransaction()
+
+            if (isChecked) {
+                transaction
+                    .add(
+                        R.id.mediaContainer,
+                        AlbumSelectFragment.newInstance()
+                    )
+            } else {
+                supportFragmentManager.findFragmentById(R.id.mediaContainer)?.run {
+                    transaction.remove(this)
+                }
+            }
+            transaction.commit()
+            supportFragmentManager.executePendingTransactions()
+        }
+        arrow.setOnClickListener { textAlbumName.toggle() }
     }
 
     class Builder {
@@ -45,7 +70,7 @@ class GalleryActivity : BaseActivity() {
         }
 
         fun maxSelect(max: Int): Builder {
-            check(max > 0) { "The maximum selection should be greater than 0."}
+            check(max > 0) { "The maximum selection should be greater than 0." }
             setting.maxSelection = max
             return this
         }
@@ -75,8 +100,9 @@ class GalleryActivity : BaseActivity() {
             }
         }
 
-        private fun getIntent(context: Context) = Intent(context, GalleryActivity::class.java).apply {
-            putExtra(KEY_ALBUM_SETTING, setting)
-        }
+        private fun getIntent(context: Context) =
+            Intent(context, GalleryActivity::class.java).apply {
+                putExtra(KEY_ALBUM_SETTING, setting)
+            }
     }
 }

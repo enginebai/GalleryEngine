@@ -21,7 +21,7 @@ class GalleryViewModel : ViewModel(), KoinComponent {
             .doOnComplete { selectAlbum(albumRepo.getAlbumItemSync(ALL_MEDIA_ALBUM_NAME, setting)!!) }
     }
 
-    fun getAlbums(setting: AlbumSetting): Observable<List<AlbumItem>> = albumRepo.getAlbums(setting)
+    fun getAlbums(): Observable<List<AlbumItem>> = albumRepo.getAlbums(setting)
 
     fun selectAlbum(album: AlbumItem) {
         currentAlbumItem.onNext(album)
