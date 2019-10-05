@@ -3,5 +3,6 @@
     <string name="cancel">取消</string>
     <string name="camera_roll">相機膠卷</string>
     <string name="finish" formatted="false">完成 (%d)</string>
-    <string name="open_gallery">開啟相簿</string>
+    <string name="single_select_gallery">單選相簿</string>
+    <string name="multiple_select_gallery">多選相簿</string>
 </resources>

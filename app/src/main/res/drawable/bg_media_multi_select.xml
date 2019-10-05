@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="ring"
-    android:thickness="2dp"
-    android:useLevel="false">
-    <solid android:color="@android:color/white"/>
+    android:shape="rectangle">
+    <stroke android:color="@color/select_stroke" android:width="2dp"/>
+    <solid android:color="@color/select_background"/>
 </shape>

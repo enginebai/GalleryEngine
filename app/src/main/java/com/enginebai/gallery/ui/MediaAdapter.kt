@@ -3,11 +3,13 @@ package com.enginebai.gallery.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.enginebai.gallery.R
 import com.enginebai.gallery.model.Media
 import kotlinx.android.synthetic.main.item_media.view.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MediaAdapter(private val clickListener: (Media) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -32,9 +34,12 @@ class MediaAdapter(private val clickListener: (Media) -> Unit) : RecyclerView.Ad
 
 class MediaViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
 
+    private val viewModel: GalleryViewModel by (view.context as LifecycleOwner).viewModel()
+
     fun bind(media: Media) {
         Glide.with(view)
             .load(media.path)
             .into(view.imageMedia)
+        view.viewSelectMask.visibility = if (viewModel.isSelect(media)) View.VISIBLE else View.GONE
     }
 }

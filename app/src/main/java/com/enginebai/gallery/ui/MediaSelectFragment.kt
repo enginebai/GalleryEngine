@@ -19,6 +19,10 @@ class MediaSelectFragment : BaseFragment() {
     private val mediaAdapter: MediaAdapter by lazy {
         MediaAdapter {
             viewModel.selectMedia(it)
+            val index = mediaAdapter.mediaList.indexOf(it)
+            if (index != -1) {
+                mediaAdapter.notifyItemChanged(index)
+            }
         }
     }
 
@@ -32,7 +36,7 @@ class MediaSelectFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with (list) {
+        with(list) {
             addItemDecoration(GridSpaceDecoration(context, R.dimen.media_margin))
             layoutManager = GridLayoutManager(list.context, 3)
             adapter = mediaAdapter

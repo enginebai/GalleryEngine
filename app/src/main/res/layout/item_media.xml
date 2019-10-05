@@ -17,15 +17,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textSelectCount"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="@+id/imageMedia"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="16dp"
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/viewSelectMask"
         android:background="@drawable/bg_media_multi_select"
-        tools:text="1"/>
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

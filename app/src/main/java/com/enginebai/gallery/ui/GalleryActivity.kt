@@ -5,12 +5,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.enginebai.gallery.R
 import com.enginebai.gallery.base.BaseActivity
-import com.enginebai.gallery.model.ALL_MEDIA_ALBUM_NAME
-import com.enginebai.gallery.model.AlbumSetting
-import com.enginebai.gallery.model.MimeType
+import com.enginebai.gallery.model.*
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_gallery.*
@@ -40,6 +39,8 @@ class GalleryActivity : BaseActivity() {
             }.apply { addDisposable(this) }
 
         buttonCancel.setOnClickListener { onBackPressed() }
+
+        buttonFinish.visibility = if (true == viewModel.setting?.multipleSelection) View.VISIBLE else View.GONE
     }
 
     private fun setClickListener() {
@@ -61,6 +62,12 @@ class GalleryActivity : BaseActivity() {
             supportFragmentManager.executePendingTransactions()
         }
         arrow.setOnClickListener { textAlbumName.toggle() }
+
+        buttonFinish.setOnClickListener {
+            viewModel.multipleSelectMedia.value?.let {
+                returnSelectMediaList(it)
+            }
+        }
     }
 
     private fun subscribeChanges() {
@@ -73,6 +80,27 @@ class GalleryActivity : BaseActivity() {
                 textAlbumName.isChecked = false
             }.subscribe()
             .apply { addDisposable(this) }
+
+        viewModel.singleSelectMedia
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext {
+                returnSelectMediaList(listOf(it))
+            }
+            .subscribe()
+            .apply { addDisposable(this) }
+
+        viewModel.multipleSelectMedia
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { buttonFinish.text = resources.getString(R.string.finish, it.size) }
+            .subscribe()
+            .apply { addDisposable(this) }
+    }
+
+    private fun returnSelectMediaList(list: List<Media>) {
+        setResult(Activity.RESULT_OK, Intent().apply {
+            putStringArrayListExtra(KEY_MEDIA_LIST, ArrayList<String>(list.map { it.path }))
+        })
+        finish()
     }
 
     class Builder {

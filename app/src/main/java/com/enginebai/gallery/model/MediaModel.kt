@@ -1,5 +1,7 @@
 package com.enginebai.gallery.model
 
+const val KEY_MEDIA_LIST = "mediaList"
+
 data class Media(
     val path: String,
     var name: String?,

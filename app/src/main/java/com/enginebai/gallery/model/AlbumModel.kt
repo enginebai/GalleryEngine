@@ -15,7 +15,7 @@ data class AlbumItem(
 class AlbumSetting : Serializable {
     var mimeType = MimeType.ALL
     var multipleSelection: Boolean = false
-    var maxSelection = 1
+    var maxSelection = 10
     var imageMaxSize: Long? = null
     var videoMaxSecond: Int? = null
     var videoMinSecond: Int? = null

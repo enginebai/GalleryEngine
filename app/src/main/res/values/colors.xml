@@ -6,4 +6,6 @@
 
     <color name="green">#68ad1d</color>
     <color name="background">#1B1F25</color>
+    <color name="select_stroke">#02C8DB</color>
+    <color name="select_background">#1002C8DB</color>
 </resources>
