@@ -1,5 +1,7 @@
 package com.enginebai.gallery.model
 
+import java.io.Serializable
+
 const val KEY_MEDIA_LIST = "mediaList"
 
 data class Media(
@@ -11,7 +13,7 @@ data class Media(
     var duration: Long?,
     var width: Int?,
     var height: Int?
-)
+) : Serializable
 
 enum class MimeType(private val typeName: String) {
     ALL("all"),

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.enginebai.gallery.R
+import com.enginebai.gallery.library.R
 import com.enginebai.gallery.model.ALL_MEDIA_ALBUM_NAME
 import com.enginebai.gallery.model.AlbumItem
 import kotlinx.android.synthetic.main.item_album.view.*

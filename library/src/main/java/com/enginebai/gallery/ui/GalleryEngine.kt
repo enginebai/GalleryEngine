@@ -7,8 +7,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.enginebai.gallery.R
 import com.enginebai.gallery.base.BaseActivity
+import com.enginebai.gallery.library.R
 import com.enginebai.gallery.model.*
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,7 +18,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 const val REQUEST_SELECT_MEDIA = 88
 private const val KEY_ALBUM_SETTING = "albumSetting"
 
-class GalleryActivity : BaseActivity() {
+class GalleryEngine : BaseActivity() {
 
     private val viewModel by viewModel<GalleryViewModel>()
 
@@ -74,7 +74,8 @@ class GalleryActivity : BaseActivity() {
         viewModel.currentAlbumItem
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext {
-                val albumName = if (it.name == ALL_MEDIA_ALBUM_NAME) textAlbumName.context.getString(R.string.camera_roll) else it.name
+                val albumName = if (it.name == ALL_MEDIA_ALBUM_NAME) textAlbumName.context.getString(
+                    R.string.camera_roll) else it.name
                 textAlbumName.textOff = albumName
                 textAlbumName.textOn = albumName
                 textAlbumName.isChecked = false
@@ -148,7 +149,7 @@ class GalleryActivity : BaseActivity() {
         }
 
         private fun getIntent(context: Context) =
-            Intent(context, GalleryActivity::class.java).apply {
+            Intent(context, GalleryEngine::class.java).apply {
                 putExtra(KEY_ALBUM_SETTING, setting)
             }
     }

@@ -6,5 +6,9 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val repoModule = module {
-    single<AlbumRepo> { AlbumRepoImpl(androidContext()) }
+    single<AlbumRepo> {
+        AlbumRepoImpl(
+            androidContext()
+        )
+    }
 }

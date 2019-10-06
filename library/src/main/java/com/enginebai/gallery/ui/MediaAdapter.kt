@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.enginebai.gallery.R
+import com.enginebai.gallery.library.R
 import com.enginebai.gallery.model.Media
 import kotlinx.android.synthetic.main.item_media.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -16,7 +16,13 @@ class MediaAdapter(private val clickListener: (Media) -> Unit) : RecyclerView.Ad
     var mediaList = mutableListOf<Media>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return MediaViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_media, parent, false))
+        return MediaViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_media,
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount() = mediaList.size

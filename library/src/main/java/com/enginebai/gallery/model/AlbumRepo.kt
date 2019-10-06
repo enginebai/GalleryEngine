@@ -103,16 +103,25 @@ class AlbumRepoImpl(private val context: Context) : AlbumRepo {
                 }
 
                 if (type.startsWith(MimeType.VIDEO.toString())) {
-                    if (null != setting?.videoMinSecond && duration < setting.videoMinSecond!!) {
+                    if (null != setting?.videoMinSecond && duration < setting.videoMinSecond!!.times(1000)) {
                         continue
                     }
 
-                    if (null != setting?.videoMaxSecond && duration > setting.videoMaxSecond!!) {
+                    if (null != setting?.videoMaxSecond && duration > setting.videoMaxSecond!!.times(1000)) {
                         continue
                     }
                 }
 
-                val media = Media(path, name, bucketName, size, dateTime, duration, width, height)
+                val media = Media(
+                    path,
+                    name,
+                    bucketName,
+                    size,
+                    dateTime,
+                    duration,
+                    width,
+                    height
+                )
 
                 // 初始化所有媒體的相簿
                 if (isEmpty()) {
@@ -160,7 +169,8 @@ class AlbumRepoImpl(private val context: Context) : AlbumRepo {
 
     private fun addAlbumItem(name: String, folder: String, coverImagePath: String) {
         albumItemMapping[name] ?: run {
-            albumItemMapping[name] = AlbumItem(name, folder, coverImagePath)
+            albumItemMapping[name] =
+                AlbumItem(name, folder, coverImagePath)
         }
     }
 

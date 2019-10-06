@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.enginebai.gallery.R
 import com.enginebai.gallery.base.BaseFragment
+import com.enginebai.gallery.library.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_album_select.*
@@ -34,7 +34,12 @@ class AlbumSelectFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         with (listAlbum) {
             layoutManager = LinearLayoutManager(listAlbum.context, LinearLayoutManager.VERTICAL, false)
-            addItemDecoration(MarginItemDecoration(context, R.dimen.album_margin))
+            addItemDecoration(
+                com.enginebai.gallery.ui.MarginItemDecoration(
+                    context,
+                    R.dimen.album_margin
+                )
+            )
             adapter = albumAdapter
         }
 

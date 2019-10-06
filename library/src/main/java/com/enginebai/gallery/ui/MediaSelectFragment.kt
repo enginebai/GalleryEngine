@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.enginebai.gallery.R
 import com.enginebai.gallery.base.BaseFragment
+import com.enginebai.gallery.library.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_media_select.*
@@ -37,7 +37,12 @@ class MediaSelectFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(list) {
-            addItemDecoration(GridSpaceDecoration(context, R.dimen.media_margin))
+            addItemDecoration(
+                com.enginebai.gallery.ui.GridSpaceDecoration(
+                    context,
+                    R.dimen.media_margin
+                )
+            )
             layoutManager = GridLayoutManager(list.context, 3)
             adapter = mediaAdapter
         }
