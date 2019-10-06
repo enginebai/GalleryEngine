@@ -6,6 +6,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import com.enginebai.gallery.base.BaseActivity
+import com.enginebai.gallery.model.MimeType
+import com.enginebai.gallery.ui.GalleryEngine
+import com.enginebai.gallery.ui.REQUEST_SELECT_MEDIA
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,28 +21,23 @@ class MainActivity : BaseActivity() {
         RxPermissions(this).request(Manifest.permission.READ_EXTERNAL_STORAGE)
             .subscribe {
                 buttonSingleSelection.setOnClickListener {
-                    com.enginebai.gallery.ui.GalleryEngine.Builder()
-                        .choose(com.enginebai.gallery.model.MimeType.IMAGE)
-                        .imageMaxSize(1024 * 1024 * 20)
+                    GalleryEngine.Builder()
+                        .choose(MimeType.IMAGE)
                         .forResult(this)
                 }
                 buttonMultipleSelection.setOnClickListener {
-                    com.enginebai.gallery.ui.GalleryEngine.Builder()
-                        .choose(com.enginebai.gallery.model.MimeType.ALL)
+                    GalleryEngine.Builder()
                         .multiple(true)
                         .maxSelect(5)
-                        .imageMaxSize(1024)
-                        .videoMaxSecond(60)
-                        .videoMinSecond(3)
-                        .forResult(this, com.enginebai.gallery.ui.REQUEST_SELECT_MEDIA)
+                        .forResult(this)
                 }
             }.apply { addDisposable(this) }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == com.enginebai.gallery.ui.REQUEST_SELECT_MEDIA && resultCode == Activity.RESULT_OK) {
-            Toast.makeText(this, data?.getStringArrayListExtra(com.enginebai.gallery.model.KEY_MEDIA_LIST)?.toString() ?: "null", Toast.LENGTH_SHORT).show()
+        if (requestCode == REQUEST_SELECT_MEDIA && resultCode == Activity.RESULT_OK) {
+            Toast.makeText(this, GalleryEngine.getSelectMediaPaths(data).toString(), Toast.LENGTH_SHORT).show()
         }
     }
 }

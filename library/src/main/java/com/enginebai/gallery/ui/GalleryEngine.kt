@@ -153,4 +153,11 @@ class GalleryEngine : BaseActivity() {
                 putExtra(KEY_ALBUM_SETTING, setting)
             }
     }
+
+    companion object {
+
+        fun getSelectMediaPaths(intent: Intent?): List<String> {
+            return intent?.getStringArrayListExtra(KEY_MEDIA_LIST) ?: listOf()
+        }
+    }
 }
